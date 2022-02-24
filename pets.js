@@ -1,3 +1,6 @@
+// const path = require('path')
+// const petsPath = path.join(__dirname, 'pets.json');
+
 const fs = require("fs");
 
 const read = (index) => {
@@ -32,12 +35,40 @@ const create = () =>{
             
             let data1 = JSON.stringify(petObj);
         
-        fs.writeFile('./pets.json', data1, (err) => {
-            if (err) throw err;
-            console.log(pet);
+            fs.writeFile('./pets.json', data1, (err) => {
+                if (err) throw err;
+                console.log(pet);
+            });
         });
         
-    });
+    }
+
+}; 
+const update = () =>{
+
+    if(process.argv.length <= 6){
+         console.error("Usage: node pets.js update INDEX AGE KIND NAME");
+         process.exit(1);
+    }else{
+        const [, , ,index, age, kind, name] = process.argv;
+        let petUpdate = { 
+            age: Number(age),
+            kind: kind, 
+            name: name
+        };
+        fs.readFile('./pets.json', (err, data) => {
+            if (err) throw err;
+            let petObj = JSON.parse(data);
+            console.log(petObj[index]);
+            petObj[index] = petUpdate; 
+            
+            let data1 = JSON.stringify(petObj);
+        
+            fs.writeFile('./pets.json', data1, (err) => {
+                if (err) throw err;
+                console.log(petObj[index]);
+            });
+        });
         
     }
 
@@ -52,6 +83,7 @@ switch (subCommand) {
         create();
         break;
     case 'update':
+        update();
         break;
     case 'destroy':
         break;
