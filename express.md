@@ -63,7 +63,7 @@ git merge express_server
 And delete the feature branch.
 
 ```shell
-git br -d express_server
+git branch -d express_server
 ```
 
 We have provided tests for you to check your work. In order for the tests to run, you will need to export your server so the tests can import it in using `require`. To export your server, simply write the following line at the bottom of the file:
