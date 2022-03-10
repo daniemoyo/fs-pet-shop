@@ -6,9 +6,14 @@ const path = require('path');
 const petsPath = path.join(__dirname, 'pets.json');
 
 const basicAuth = require('express-basic-auth');
-app.use(basicAuth({
-    users: { 'admin':'meowmix'}
-}));
+
+app.use(
+    basicAuth({
+    users: { 'admin':'meowmix'},
+    unauthorizedResponse: { "message":"Access unauthorized: Username or Password is incorrect" },
+    },
+    express.json()
+));
 
 
 const { Pool } = require('pg');
@@ -18,8 +23,6 @@ const pool = new Pool({
 
 
 const { readPetsFile, writePetsFile} = require("./utils.js");
-
-app.use(express.json());
 
 //Create a Pet
 app.post('/pets', (req, res) => {
@@ -100,12 +103,12 @@ app.patch('/pets/:id', (req, res) => {
         });
         
         
-        app.use((req, res, next) => {
-            res.status(404).send("Not found");
-        });
-        
-        app.listen(3000, ()=>{
-            console.log("Listening on Port: 3000");
-        });
-        
-        module.exports = app;
+app.use((req, res, next) => {
+    res.status(404).send("Not found");
+});
+
+app.listen(3000, ()=>{
+    console.log("Listening on Port: 3000");
+});
+
+module.exports = app;
