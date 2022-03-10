@@ -26,6 +26,7 @@
   "homepage": "https://github.com/gSchool/fs-pet-shop#readme",
   "dependencies": {
     "express": "^4.17.3",
+    "express-basic-auth": "^1.2.1",
     "nodemon": "^1.9.1",
     "pg": "^8.7.3"
   },
